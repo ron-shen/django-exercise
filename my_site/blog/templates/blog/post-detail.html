@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  This Post title
+{% endblock %}
+
+{% block css_files %}
+  <link rel="stylesheet" href={% static "blog/post-detail.css" %}>
+{% endblock %}
+
+{% block content %}
+  <section id="summary">
+    <h2>Post Title</h2>
+    <article>
+      <img src={% static 'images/me.png' %} alt="Post Title">
+      <address>By Me</address>
+      <div>
+        Last updated updated on <time>test</time>
+      </div>
+    </article>
+  </section>
+
+  <main>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis itaque quasi iste eos! Quaerat totam iste repellendus eaque natus minus quia ratione. Quia saepe exercitationem consequuntur, blanditiis voluptas deserunt in!</p>
+  </main>
+{% endblock %}
