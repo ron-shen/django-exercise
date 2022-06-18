@@ -1,4 +1,4 @@
 from django import forms
 
 class ProfielForm(forms.Form):
-  user_image = forms.FileField(required=False)
+  user_image = forms.ImageField(required=False)
