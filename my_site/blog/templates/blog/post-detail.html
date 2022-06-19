@@ -18,7 +18,7 @@
       {% endfor %}
     </div>
     <article>
-      <img src={% static 'images/'|add:post.image_name %} alt="Post Title">
+      <img src={{ post.image.url}} alt="">
       <address>By <a href="mailto:{{ post.author.email_address }}">{{ post.author }}</a></address>
       <div>
         Last updated updated on <time>{{ post.date|date:"d M Y" }}</time>
@@ -29,4 +29,10 @@
   <main>
     {{ post.content|linebreaks }}
   </main>
+  <div>
+    <form action="" method="post">
+      {{ comment_form }}
+      <button>Save</button>
+    </form>
+  </div>
 {% endblock %}
