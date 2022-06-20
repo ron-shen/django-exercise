@@ -9,13 +9,28 @@
   <link rel="stylesheet" href={% static "blog/post-detail.css" %}>
 {% endblock %}
 
+
 {% block content %}
+  {% if comment_form.errors %}
+    <div id="alert">
+      <h2>saving comment failed</h2>
+    </div>
+  {% endif %}
   <section id="summary">
     <h2>{{ post.title }}</h2>
     <div>
       {% for tag in post_tags %}
         <span class="tag">{{ tag.caption }}</span>
       {% endfor %}
+    </div>
+    <div id="read-later">
+      <form action="{% url "read-later" %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" value="{{ post.id }}" name="post_id">
+        {% if not save_for_later %}
+          <button>Read Later</button>
+        {% endif %}
+      </form>
     </div>
     <article>
       <img src={{ post.image.url}} alt="">
@@ -29,9 +44,33 @@
   <main>
     {{ post.content|linebreaks }}
   </main>
+
+  <section id="comments">
+    <ul>
+      {% for comment in comments  %}
+        <li>
+          <h2>{{ comment.user_name }}</h2>
+          <p>{{ comment.text|linebreaks }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+
+  </section>
+
   <div>
-    <form action="" method="post">
-      {{ comment_form }}
+    <form action="{% url "indiviudal-post" post.slug %}" id="comment-form" method="post">
+      {% csrf_token %}
+          {% comment %} {{ comment_form.label_tag }}
+          {{ comment_form }}
+          {{ comment_form.errors }}            {% endcomment %}
+      {% for form_field in comment_form %}
+        {% comment %} CharField, Textfield has label_tag, errors attribute {% endcomment %}
+        <div class="form-control {% if form_field.errors %}invalid{% endif %}">
+        {{ form_field.label_tag }}
+        {{ form_field }}
+        {{ form_field.errors }}
+        </div>       
+      {% endfor %}
       <button>Save</button>
     </form>
   </div>
